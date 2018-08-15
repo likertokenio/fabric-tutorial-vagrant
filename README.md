@@ -16,7 +16,7 @@ v.cpus = 2
 # Provisioning
 - change directory to the folder containing the downloaded `Vagrantfile`
 - run `vagrant up` from the commandline(OSX: terminal, Win: cmd.exe) to provision the entire system. Download and provisioning system can take a long up (up to 10-20mins)
-- Once you reach the success screen output, 
+- Once you reach the success screen output,
 ```
 ==> default:
 ==> default: tern_from_ts@0.0.1 node_modules/tern_from_ts
@@ -27,7 +27,7 @@ v.cpus = 2
 ==> default: ++ cd /cloud9
 ==> default: ++ su ubuntu -c 'nodejs server.js -l 0.0.0.0 -w /home/ubuntu --auth root:secret'
 ```
-- and the terminal command exits, you can open the browser based IDE at [localhost:8181](http://localhost:8181)
+- and the terminal command exits, you can open the browser based IDE at [10.10.10.201:8181](http://10.10.10.201:8181)
 - login into the IDE using the default credentials `root` and `secret`
 
 # Using fabric samples
@@ -41,7 +41,7 @@ Use `vagrant up` to start the VM again (After restarting computer, or after VM s
 Use `vagrant destroy` to completely erase the entire VM, including all saved data.
 
 # Starting composer-playground
-Going to the `composer-playground` folder and start `./playground.sh` will bring up a 4-peer network with 1 orderer and 1 fabric-ca, and composer-playground at [http://localhost:8080](http://localhost:8080) 
+Going to the `composer-playground` folder and start `./playground.sh` will bring up a 4-peer network with 1 orderer and 1 fabric-ca, and composer-playground at [http://10.10.10.201:8080](http://10.10.10.201:8080)
 Have fun!
 
 # Creating NetworkAdmin credentials for the playground
@@ -50,8 +50,14 @@ This command will enroll the root registrar inside the fabric-ca container itsel
 docker exec -it ca.org1.example.com fabric-ca-client enroll -M registrar -u http://admin:adminpw@localhost:7054
 ```
 
-Then, use this command to use the registrar credentials to register a new user (to be used as a NetworkAdmin for composer-playground). 
+Then, use this command to use the registrar credentials to register a new user (to be used as a NetworkAdmin for composer-playground).
 ```
-docker exec -it ca.org1.example.com fabric-ca-client register -M registrar -u http://localhost:7054 --id.name <user_id> --id.affiliation org1 --id.attrs '"hf.Registrar.Roles=client"' --id.type user
+docker exec -it ca.org1.example.com fabric-ca-client register -M registrar -u http://10.10.10.201:7054 --id.name <user_id> --id.affiliation org1 --id.attrs '"hf.Registrar.Roles=client"' --id.type user
 ```
 Use the returned password and specified `user_id` as NetworkAdmin when deploying a new network inside the composer-playground. (ID and Secrets method in playground)
+
+# Package to Vagrant Box
+Packaging VM to Vagrant Box
+```
+$ ./build-vm.sh package
+```

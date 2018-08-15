@@ -18,9 +18,9 @@
 
 VAGRANTFILE_API_VERSION = "2"
 ARCH = "x86_64"
-FABRIC_DOCKER_VER = "1.0.4"
-COMPOSER_VER = "0.15.2"
-FABRIC_SAMPLE_VER = "v1.0.2"
+FABRIC_DOCKER_VER = "1.2.0"
+COMPOSER_VER = "0.20.0"
+FABRIC_SAMPLE_VER = "v1.2.0"
 
 $script = <<SCRIPT
 set -x
@@ -92,12 +92,10 @@ Vagrant.configure('2') do |config|
   config.vm.provider "virtualbox" do |v|
     v.memory = 4096
     v.cpus = 4
+    v.name = "fabric-tutorial"
   end
-
+  config.vm.synced_folder '.', '/vagrant', type: :virtualbox
   config.vm.provision "shell", inline: $script
-  config.vm.network :forwarded_port, guest: 8080, host: 8080  #composer
-  config.vm.network :forwarded_port, guest: 8181, host: 8181  #cloud9-ide
-  config.vm.network :forwarded_port, guest: 9090, host: 9090  #custom-ui
-  config.vm.network :forwarded_port, guest: 3000, host: 3000  #marbles-ui
-  config.vm.network :forwarded_port, guest: 3001, host: 3001  #marbles-ui
+  config.vm.network :private_network, ip: "10.10.10.201"
+  config.vm.hostname = "hlf.example.com"
 end
